@@ -15,39 +15,71 @@ Arduino library for sparse matrices.
 
 SparseMatrix is an **experimental** library to implement sparse matrices on an Arduino.
 
-The maximum matrix that can be represented is 255 x 255 with a maximum of 255 non zero elements.
+The maximum matrix that can be represented is 255 x 255 
+with a maximum of 255 non-zero elements.
+This would just fit in an UNO's 2K memory.
+
+The library does not hold the dimensions of the matrix (at least in 0.1.0)
 
 The purpose of the library is efficient storage in memory. 
 It does not do math operations except sum().
 
+Relates to https://github.com/RobTillaart/distanceTable
+
 
 #### Implementation
 
-The implementation is based on a 3 arrays holding ``` x, y, value ``` where value is float.
+The implementation is based on 3 arrays holding ``` x, y, value``` where value is float.
+In the future other datatypes should be possible.
+
+The elements are not kept sorted or indexed so optimizations are possible
+but not investigated yet.
 
 
 ## Interface
 
-#### Constructor
-
-- **SparseMatrix(uint8_t size)** constructor. parameter is the maximum number of elements in the sparse matrix.
+- **SparseMatrix(uint8_t size)** constructor. 
+Parameter is the maximum number of elements in the sparse matrix.
 - **uint8_t size()** maximum number of elements.
-- **uint8_t count()** current number of elements.
-- **float sum()** sum of all elements in matrix.
-
-
-#### Access
-
-- **void set(uint8_t x, uint8_t y, float value)**
-- **float get(uint8_t x, uint8_t y)**
+- **uint8_t count()** current number of elements in the matrix.
+- **float sum()** sum of all elements ( > 0 ) in the matrix.
+- **bool set(uint8_t x, uint8_t y, float value)** gives an element in the matrix a value.
+If the value is set to zero, it is removed from the internal store.
+Returns false if the internal store is full, true otherwise.
+- **float get(uint8_t x, uint8_t y)** returns the value in the matrix. 
 
 
 ## Future
 
 - documentation
-- test test test
+- test
 - template version to store other data types 
-  - 1, 2, 3 byte elements or 8 byte doubles
-  - N bytes elements (struct, complex number etc)
+  - 1, 2, 3 (RGB), 4 byte integer or 8 byte doubles
+  - struct, complex number
+  - etc
 - add examples
+  - 2D histogram e.g. temperature vs humidity counter.
+- investigate optimizations.
+- should **set()** return the number of free places?
+  - no hard code and more informative than just a bool.
+- add link in distanceTable repo
+
+
+#### new functions
+
+- **float add(uint8_t x, uint8_t y, float value)** adds value to the x,y position.
+  - add or remove an internal element if needed,
+  - functional **set(x,y, get(x,y) + value)**
+
+
+#### won't
+
+- math
+  - determinant?
+  - M x M
+  - diagonal?
+- add examples
+  - battleship game
+  - minesweeper game
+  - nice exercise 
 

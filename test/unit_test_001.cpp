@@ -41,7 +41,7 @@ unittest_teardown()
 unittest(test_constructor)
 {
   SparseMatrix sm(10);
-  assertEqual(10, sm.maxElements());
+  assertEqual(10, sm.size());
   assertEqual(0, sm.count());
 }
 
@@ -51,10 +51,33 @@ unittest(test_set)
   SparseMatrix sm(10);
   for (int i = 0; i < 10; i++)
   {
-    assertTrue(10, sm.set(i, i, 1.0 * i * i));
-    assertEqual(i,  sm.count());
+    assertTrue(sm.set(i, i, 1.0 * i * i));
+    assertEqual(i, sm.count());
   }
   assertFalse(sm.set(3,4,5));   //  don't fit any more...
+}
+
+
+unittest(test_get)
+{
+  SparseMatrix sm(10);
+  for (int i = 0; i < 10; i++)
+  {
+    assertTrue(sm.set(i, i, 1.0 * i * i));
+    assertEqualFloat(1.0 * i * i, sm.get(i, i));
+  }
+  assertFalse(sm.set(3,4,5));   //  don't fit any more...
+}
+
+
+unittest(test_sum)
+{
+  SparseMatrix sm(10);
+  for (int i = 0; i < 10; i++)
+  {
+    assertTrue(sm.set(i, i, 10));
+  }
+  assertEqualFloat(100, sm.sum(), 0.0001);
 }
 
 
