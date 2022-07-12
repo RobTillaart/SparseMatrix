@@ -63,6 +63,7 @@ void setup()
   stop = micros();
   Serial.print("get 20x :\t");
   Serial.println(stop - start);
+  Serial.println(f);
   delay(100);
 
   start = micros();
