@@ -64,7 +64,7 @@ unittest(test_get)
   for (int i = 0; i < 10; i++)
   {
     assertTrue(sm.set(i, i, 1.0 * i * i));
-    assertEqualFloat(1.0 * i * i, sm.get(i, i));
+    assertEqualFloat(1.0 * i * i, sm.get(i, i), 0.001);
   }
   assertFalse(sm.set(3,4,5));   //  don't fit any more...
 }
