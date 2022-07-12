@@ -58,11 +58,14 @@ Returns false if the internal store is full, true otherwise.
   - struct, complex number
   - etc
 - add examples
-  - 2D histogram e.g. temperature vs humidity counter.
+  - 2D histogram e.g. temperature vs humidity
+  - N queens game.
 - investigate optimizations.
 - should **set()** return the number of free places?
   - no hard code and more informative than just a bool.
 - add link in distanceTable repo
+- uint16_t size for larger platforms.
+  - max matrix still 255 x 255 but more elements <> 0.
 
 
 #### new functions
@@ -70,7 +73,11 @@ Returns false if the internal store is full, true otherwise.
 - **float add(uint8_t x, uint8_t y, float value)** adds value to the x,y position.
   - add or remove an internal element if needed,
   - functional **set(x,y, get(x,y) + value)**
-
+- **void clear()** sets all elements to zero again. 
+  - \_count = 0; should be sufficient.
+- walking through the elements?
+  - first -> next;  last -> prev.
+  
 
 #### won't
 

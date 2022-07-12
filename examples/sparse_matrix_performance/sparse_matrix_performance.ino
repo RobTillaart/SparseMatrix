@@ -1,5 +1,5 @@
 //
-//    FILE: sparse_matrix_demo.ino
+//    FILE: sparse_matrix_performance.ino
 //  AUTHOR: Rob Tillaart
 // PURPOSE: demo
 
@@ -38,7 +38,6 @@ void setup()
   for (int i = 0; i < 20; i++)
   {
     sm.set(i, i, 4);
-
   }
   stop = micros();
   Serial.print("redo 20x :\t");
