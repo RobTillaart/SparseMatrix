@@ -54,7 +54,8 @@ unittest(test_set)
     assertTrue(sm.set(i, i, 1.0 * i * i));
     assertEqual(i, sm.count());
   }
-  assertFalse(sm.set(3, 4, 5));   //  don't fit any more...
+  assertTrue(sm.set(3, 4, 5));
+  assertFalse(sm.set(5, 4, 5));   //  don't fit any more...
 
   //  do not set new element to zero 
   sm.clear();
