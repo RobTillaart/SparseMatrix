@@ -52,7 +52,7 @@ unittest(test_set)
   for (int i = 0; i < 10; i++)
   {
     assertTrue(sm.set(i, i, 1.0 * i * i));
-    assertEqual(i+1, sm.count());
+    assertEqual(i, sm.count());
   }
   assertFalse(sm.set(3, 4, 5));   //  don't fit any more...
 
