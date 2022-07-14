@@ -79,9 +79,6 @@ Returns false if the internal store is full, true otherwise.
   - etc
 - investigate performance optimizations
   - linked list, tree, hashing?
-- add examples
-  - 2D histogram e.g. temperature vs humidity
-  - N queens game.
 - should **set()** and **add()** return the number of free places?
   - more informative than just a bool.
 - can **set()** and **add()** be merged?
@@ -100,6 +97,7 @@ Returns false if the internal store is full, true otherwise.
   - M x M
   - diagonal?
 - add examples
+  - N queens game.
   - battleship game
   - minesweeper game
   - nice exercise 
