@@ -34,16 +34,29 @@ In the future other datatypes should be possible.
 
 #### Performance
 
-The elements are not kept sorted or indexed so optimizations are possible
-but not investigated yet.
+The elements are not kept sorted or indexed so optimizations might be 
+possible but are not investigated yet.
+There is however a test sketch to monitor performance.
+
+Accessing elements internally is done with a linear search, 
+which becomes (much) slower if the number of elements is increasing. 
+This means that although in theory there can be 65535 elements, 
+in practice a few 100 can already become annoyingly slow.
+To keep performance a bit the library has a limit build in.
+Check the .h file for **SPARSEMATRIX_MAX_SIZE 1000**
 
 
 ## Interface
 
-- **SparseMatrix(uint8_t size)** constructor. 
+```cpp
+#include "SparseMatrix.h"
+```
+
+### Core
+- **SparseMatrix(uint16_t size)** constructor. 
 Parameter is the maximum number of elements in the sparse matrix.
-- **uint8_t size()** maximum number of elements.
-- **uint8_t count()** current number of elements in the matrix.
+- **uint16_t size()** maximum number of elements.
+- **uint16_t count()** current number of elements in the matrix.
 - **float sum()** sum of all elements ( > 0 ) in the matrix.
 - **void clear()** resets the matrix to all zero's again.
 - **bool set(uint8_t x, uint8_t y, float value)** gives an element in the matrix a value.
@@ -64,23 +77,21 @@ Returns false if the internal store is full, true otherwise.
   - 1, 2, 3 (RGB), 4 byte integer or 8 byte doubles
   - struct, complex number
   - etc
+- investigate performance optimizations
+  - linked list, tree, hashing?
 - add examples
   - 2D histogram e.g. temperature vs humidity
   - N queens game.
-- investigate optimizations.
 - should **set()** and **add()** return the number of free places?
-  - no hard code and more informative than just a bool.
+  - more informative than just a bool.
 - can **set()** and **add()** be merged?
 - add link in distanceTable repo
-- uint16_t size for larger platforms.
-  - max matrix still 255 x 255 but more elements <> 0.
-
+  
 
 #### new functions
 
 - walk through the elements?
   - first -> next;  last -> prev.
-
 
 #### won't
 
