@@ -49,7 +49,7 @@ unittest(test_constructor)
   SparseMatrix sm(10);
   assertEqual(10, sm.size());
   assertEqual(0, sm.count());
-  
+
   SparseMatrix sm2(1100);
   assertEqual(1000, sm2.size());
 }
@@ -66,7 +66,7 @@ unittest(test_set)
   assertTrue(sm.set(3, 4, 5));
   assertFalse(sm.set(5, 4, 5));   //  don't fit any more...
 
-  //  do not set new element to zero 
+  //  do not set new element to zero
   sm.clear();
   assertEqual(0, sm.count());
 

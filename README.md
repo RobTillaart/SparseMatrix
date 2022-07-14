@@ -13,30 +13,36 @@ Arduino library for sparse matrices.
 
 ## Description
 
-SparseMatrix is an **experimental** library to implement sparse matrices on an Arduino.
+SparseMatrix is an **experimental** library to implement
+two dimensional sparse matrices (of floats) on an Arduino.
+A sparse matrix is a matrix with mostly zeros and a low percentage non-zero values.
+The purpose of this library is efficient storage in memory. 
 
 The maximum matrix that can be represented is 255 x 255 
-with a maximum of 255 non-zero elements.
-This would just fit in an UNO's 2K memory.
+with a theoretical maximum of 65535 non-zero elements.
+In practice the library limits this to 1000 non-zero elements.
+Note: 255 elements would still fit in an UNO's 2K memory.
 
-The library does not hold the dimensions of the matrix (at least in 0.1.0)
+Note: the library does not do matrix math operations.
 
-The purpose of the library is efficient storage in memory. 
-It does not do math operations except sum().
+Note: the library does not hold the dimensions of the matrix
+and cannot check these.
 
-Relates to https://github.com/RobTillaart/distanceTable
+Relates somewhat to https://github.com/RobTillaart/distanceTable
 
 
 #### Implementation
 
-The implementation is based on 3 arrays holding ``` x, y, value``` where value is float.
-In the future other datatypes should be possible.
+The implementation is based on 3 arrays holding ``` x, y, value``` where value is float, and x and y are bytes.
+In the future other data types should be possible.
+
 
 #### Performance
 
 The elements are not kept sorted or indexed so optimizations might be 
 possible but are not investigated yet.
-There is however a test sketch to monitor performance.
+There is however a test sketch to monitor the performance of
+the most important functions.
 
 Accessing elements internally is done with a linear search, 
 which becomes (much) slower if the number of elements is increasing. 
@@ -52,7 +58,6 @@ Check the .h file for **SPARSEMATRIX_MAX_SIZE 1000**
 #include "SparseMatrix.h"
 ```
 
-### Core
 - **SparseMatrix(uint16_t size)** constructor. 
 Parameter is the maximum number of elements in the sparse matrix.
 - **uint16_t size()** maximum number of elements.
@@ -78,20 +83,25 @@ Returns false if the internal store is full, true otherwise.
   - struct, complex number
   - etc
 - investigate performance optimizations
+  - sort
   - linked list, tree, hashing?
 - should **set()** and **add()** return the number of free places?
   - more informative than just a bool.
 - can **set()** and **add()** be merged?
-- add link in distanceTable repo
-  
 
-#### new functions
+
+#### Functions
 
 - walk through the elements?
-  - first -> next;  last -> prev.
+  - first() -> next();  optional last() -> prev().
+  
 
 #### won't
 
+- set a zero threshold ?
+  - if (abs(x) < TH) element is considered zero => remove
+  - not portable to template version  (sum() is not either!)
+  - user can do this.
 - math
   - determinant?
   - M x M
@@ -100,5 +110,4 @@ Returns false if the internal store is full, true otherwise.
   - N queens game.
   - battleship game
   - minesweeper game
-  - nice exercise 
 

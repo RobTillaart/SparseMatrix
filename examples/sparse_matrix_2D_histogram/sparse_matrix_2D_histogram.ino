@@ -50,8 +50,8 @@ void loop()
     dump(20, 10, 0);
   }
   sht.read();
-  uint8_t x = sht.getHumidity() - 45;     // adjust if needed 
-  uint8_t y = sht.getTemperature() - 20;  // adjust if needed
+  uint8_t x = round(sht.getHumidity()) - 45;     // adjust if needed 
+  uint8_t y = round(sht.getTemperature()) - 20;  // adjust if needed
 //  Serial.print(x);
 //  Serial.print(" ");
 //  Serial.print(y);

@@ -5,6 +5,7 @@
 // VERSION: 0.1.2
 //    DATE: 2022-07-12
 // PURPOSE: Arduino library for sparse matrices
+//     URL: https://github.com/RobTillaart/SparseMatrix
 //
 
 
@@ -45,7 +46,7 @@ private:
   uint8_t   *_y     = NULL;
   float     *_value = NULL;
 
-  //  returns index of x,y if in set
+  //  returns index of x, y if in set
   //  otherwise -1
   int32_t findPos(uint8_t x, uint8_t y);
 };

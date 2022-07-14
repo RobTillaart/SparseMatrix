@@ -4,6 +4,7 @@
 // VERSION: 0.1.2
 //    DATE: 2022-07-12
 // PURPOSE: Arduino library for sparse matrices
+//     URL: https://github.com/RobTillaart/SparseMatrix
 //
 //  HISTORY:
 //  0.1.0  2022-07-12  initial version
@@ -12,6 +13,7 @@
 //                     fix set(x, y, 0);
 //  0.1.2  2022-07-14  increase size to uint16_t
 //                     add SPARSEMATRIX_MAX_SIZE
+//                     improve documentation
 
 
 #include "SparseMatrix.h"
@@ -152,6 +154,10 @@ float SparseMatrix::get(uint8_t x, uint8_t y)
 }
 
 
+//////////////////////////////////////////////////////
+//
+//  PRIVATE
+//
 int32_t SparseMatrix::findPos(uint8_t x, uint8_t y)
 {
   //  linear search - not optimized.
@@ -168,3 +174,4 @@ int32_t SparseMatrix::findPos(uint8_t x, uint8_t y)
 
 
 // -- END OF FILE --
+
