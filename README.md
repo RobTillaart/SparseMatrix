@@ -85,8 +85,6 @@ Returns false if the internal store is full, true otherwise.
 - investigate performance optimizations
   - sort
   - linked list, tree, hashing?
-- should **set()** and **add()** return the number of free places?
-  - more informative than just a bool.
 - can **set()** and **add()** be merged?
 
 
@@ -98,6 +96,9 @@ Returns false if the internal store is full, true otherwise.
 
 #### won't
 
+- should **set()** and **add()** return the number of free places?
+  - more informative than just a bool.
+  - One looses the info that the operation was successful
 - set a zero threshold ?
   - if (abs(x) < TH) element is considered zero => remove
   - not portable to template version  (sum() is not either!)
