@@ -33,7 +33,10 @@ Relates somewhat to https://github.com/RobTillaart/distanceTable
 
 #### Implementation
 
-The implementation is based on 3 arrays holding ``` x, y, value``` where value is float, and x and y are bytes.
+The implementation is based on 3 arrays holding ``` x, y, value``` where value is float, and x and y are uint8_t. Thatare 6 bytes per element. 
+The number of elements that the sparse matrix object can hold are given as parameter to the constructor. If the space cannot be allocated the size is set 
+to zero.
+
 In the future other data types should be possible.
 
 
@@ -58,12 +61,17 @@ Check the .h file for **SPARSEMATRIX_MAX_SIZE 1000**
 #include "SparseMatrix.h"
 ```
 
+### Constructor and meta
+
 - **SparseMatrix(uint16_t size)** constructor. 
 Parameter is the maximum number of elements in the sparse matrix.
 - **uint16_t size()** maximum number of elements.
 - **uint16_t count()** current number of elements in the matrix.
 - **float sum()** sum of all elements ( > 0 ) in the matrix.
 - **void clear()** resets the matrix to all zero's again.
+
+### access
+
 - **bool set(uint8_t x, uint8_t y, float value)** gives an element in the matrix a value.
 If the value is set to zero, it is removed from the internal store.
 Returns false if the internal store is full, true otherwise.
