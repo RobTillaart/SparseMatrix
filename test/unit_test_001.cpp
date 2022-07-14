@@ -38,11 +38,20 @@ unittest_teardown()
 }
 
 
+unittest(test_constants)
+{
+  assertEqual(1000, SPARSEMATRIX_MAX_SIZE);
+}
+
+
 unittest(test_constructor)
 {
   SparseMatrix sm(10);
   assertEqual(10, sm.size());
   assertEqual(0, sm.count());
+  
+  SparseMatrix sm2(1100);
+  assertEqual(1000, sm2.size());
 }
 
 
