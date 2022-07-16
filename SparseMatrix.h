@@ -37,7 +37,10 @@ public:
   bool     add(uint8_t x, uint8_t y, float value);
   float    get(uint8_t x, uint8_t y);
 
+
+  //  returns four sides between all values != 0 are located.
   void     boundingBox(uint8_t &minX, uint8_t &maxX, uint8_t &minY, uint8_t &maxY);
+
 
 private:
   uint16_t  _size   = 0;

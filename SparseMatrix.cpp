@@ -15,6 +15,8 @@
 //                     add SPARSEMATRIX_MAX_SIZE
 //                     improve documentation
 //  0.1.3  2022-07-16  add boundingBox(...)
+//                     fix #4 set() add()
+
 
 
 #include "SparseMatrix.h"
