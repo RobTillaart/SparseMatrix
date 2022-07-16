@@ -103,7 +103,6 @@ Returns the bounding box in which all values are located.
 - investigate performance optimizations
   - sort
   - linked list, tree, hashing?
-- can **set()** and **add()** be merged?
 
 
 #### Functions
