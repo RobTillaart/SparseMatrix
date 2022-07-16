@@ -88,6 +88,8 @@ Returns false if the internal store is full, true otherwise.
 If needed a new internal element is created. 
 If the sum is zero, the element is removed from the internal store.
 Returns false if the internal store is full, true otherwise.
+- **void  boundingBox(uint8_t &minX, uint8_t &maxX, uint8_t &minY, uint8_t &maxY)** 
+Returns the bounding box in which all values are located.
 
 
 ## Future
@@ -108,6 +110,8 @@ Returns false if the internal store is full, true otherwise.
 
 - walk through the elements?
   - first() -> next();  optional last() -> prev().
+- **uint8_t minX()**, maxX, minY, maxY to detect "bounding box" of data
+  - 2 loops through x and y array.
   
 
 #### won't

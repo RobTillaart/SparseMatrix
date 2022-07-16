@@ -1,7 +1,7 @@
 //
 //    FILE: SparseMatrix.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2022-07-12
 // PURPOSE: Arduino library for sparse matrices
 //     URL: https://github.com/RobTillaart/SparseMatrix
@@ -14,6 +14,7 @@
 //  0.1.2  2022-07-14  increase size to uint16_t
 //                     add SPARSEMATRIX_MAX_SIZE
 //                     improve documentation
+//  0.1.3  2022-07-16  add boundingBox(...)
 
 
 #include "SparseMatrix.h"
@@ -151,6 +152,24 @@ float SparseMatrix::get(uint8_t x, uint8_t y)
     return _value[pos];
   }
   return 0;
+}
+
+
+void SparseMatrix::boundingBox(uint8_t &minX, uint8_t &maxX, uint8_t &minY, uint8_t &maxY)
+{
+  uint8_t _minx = 255, _maxx = 0, 
+          _miny = 255, _maxy = 0;
+  for (uint16_t i = 0; i < _count; i++)
+  {
+    if (_x[i] < _minx) _minx = _x[i];
+    if (_x[i] > _maxx) _maxx = _x[i];
+    if (_y[i] < _miny) _miny = _y[i];
+    if (_y[i] > _maxy) _maxy = _y[i];
+  }
+  minX = _minx;
+  maxX = _maxx;
+  minY = _miny;
+  maxY = _maxy;
 }
 
 
