@@ -50,6 +50,12 @@ private:
   //  returns index of x, y if in set
   //  otherwise -1
   int32_t findPos(uint8_t x, uint8_t y);
+
+  //  removes element at pos (from findPos)
+  //  pre: count > 0
+  void    removeElement(uint16_t pos);
+  //  creates a new element if value != 0 and if there is room
+  bool    newElement(uint8_t x, uint8_t y, float value);
 };
 
 

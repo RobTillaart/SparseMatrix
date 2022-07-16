@@ -23,8 +23,7 @@ void setup()
   {
     uint8_t x = random(5) + 3;
     uint8_t y = random(5) + 3;
-    float value = random(37);
-    sm.set(x, y, value);
+    sm.set(x, y, random(37));
   }
   dump(10, 10);
 

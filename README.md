@@ -110,9 +110,7 @@ Returns the bounding box in which all values are located.
 
 - walk through the elements?
   - first() -> next();  optional last() -> prev().
-- **uint8_t minX()**, maxX, minY, maxY to detect "bounding box" of data
-  - 2 loops through x and y array.
-  
+
 
 #### won't
 
