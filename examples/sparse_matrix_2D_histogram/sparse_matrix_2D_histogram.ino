@@ -18,7 +18,7 @@
 
 #define SHT85_ADDRESS         0x44
 
-SHT85 sht;
+SHT85 sht(SHT85_ADDRESS);
 
 SparseMatrix sm(40);
 uint32_t lastTime = 0;
@@ -37,7 +37,7 @@ void setup()
   sm.clear();
 
   Wire.begin();
-  sht.begin(SHT85_ADDRESS);
+  sht.begin();
   Wire.setClock(100000);
 }
 
