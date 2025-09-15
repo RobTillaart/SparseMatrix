@@ -1,7 +1,7 @@
 //
 //    FILE: sparse_matrix_2D_histogram.ino
 //  AUTHOR: Rob Tillaart
-// PURPOSE: demo 2D
+// PURPOSE: demo 2D histogram temperature versus humidity
 //     URL: https://github.com/RobTillaart/SparseMatrix
 //
 // TOPVIEW SHT85  (check datasheet)
@@ -13,7 +13,7 @@
 //            +-------+
 
 
-#include  "SparseMatrix.h"
+#include "SparseMatrix.h"
 #include "SHT85.h"
 
 #define SHT85_ADDRESS         0x44
@@ -28,11 +28,11 @@ void setup()
   Serial.begin(115200);
   Serial.println();
   Serial.println(__FILE__);
-
+  Serial.print("SPARSEMATRIX_LIB_VERSION: ");
+  Serial.println(SPARSEMATRIX_LIB_VERSION);
   Serial.print("SHT_LIB_VERSION: \t");
   Serial.println(SHT_LIB_VERSION);
-  Serial.print("SPARSEMATRIX_LIB_VERSION: \t");
-  Serial.println(SPARSEMATRIX_LIB_VERSION);
+  Serial.println();
 
   sm.clear();
 
@@ -50,12 +50,12 @@ void loop()
     dump(20, 10, 0);
   }
   sht.read();
-  uint8_t x = round(sht.getHumidity()) - 45;     // adjust if needed 
-  uint8_t y = round(sht.getTemperature()) - 20;  // adjust if needed
-//  Serial.print(x);
-//  Serial.print(" ");
-//  Serial.print(y);
-//  Serial.print("\n");
+  uint8_t x = round(sht.getHumidity()) - 45;     //  adjust if needed
+  uint8_t y = round(sht.getTemperature()) - 20;  //  adjust if needed
+  //  Serial.print(x);
+  //  Serial.print(" ");
+  //  Serial.print(y);
+  //  Serial.print("\n");
   sm.add(x, y, 1);
   delay(1000);
 }
