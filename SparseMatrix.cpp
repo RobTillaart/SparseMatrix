@@ -1,7 +1,7 @@
 //
 //    FILE: SparseMatrix.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.6
+// VERSION: 0.2.0
 //    DATE: 2022-07-12
 // PURPOSE: Arduino library for sparse matrices
 //     URL: https://github.com/RobTillaart/SparseMatrix
@@ -67,12 +67,12 @@ float SparseMatrix::sum()
 
 bool SparseMatrix::set(uint8_t x, uint8_t y, float value)
 {
-  int32_t pos = findPos(x, y);
+  int32_t position = findPosition(x, y);
   //  existing element
-  if (pos > -1)
+  if (position > -1)
   {
-    _value[pos] = value;
-    if (_value[pos] == 0.0) removeElement(pos);
+    _value[position] = value;
+    if (_value[position] == 0.0) removeElement(position);
     return true;
   }
 
@@ -83,12 +83,12 @@ bool SparseMatrix::set(uint8_t x, uint8_t y, float value)
 
 bool SparseMatrix::add(uint8_t x, uint8_t y, float value)
 {
-  int32_t pos = findPos(x, y);
+  int32_t position = findPosition(x, y);
   //  existing element
-  if (pos > -1)
+  if (position > -1)
   {
-    _value[pos] += value;
-    if (_value[pos] == 0.0) removeElement(pos);
+    _value[position] += value;
+    if (_value[position] == 0.0) removeElement(position);
     return true;
   }
 
@@ -99,17 +99,18 @@ bool SparseMatrix::add(uint8_t x, uint8_t y, float value)
 
 float SparseMatrix::get(uint8_t x, uint8_t y)
 {
-  int32_t pos = findPos(x, y);
-  if (pos > -1)
+  int32_t position = findPosition(x, y);
+  if (position > -1)
   {
-    return _value[pos];
+    return _value[position];
   }
   return 0;
 }
 
 
-void SparseMatrix::boundingBox(uint8_t &minX, uint8_t &maxX, uint8_t &minY, uint8_t &maxY)
+bool SparseMatrix::boundingBox(uint8_t &minX, uint8_t &maxX, uint8_t &minY, uint8_t &maxY)
 {
+  if (_count == 0) return false;
   uint8_t _minx = 255, _maxx = 0,
           _miny = 255, _maxy = 0;
   for (uint16_t i = 0; i < _count; i++)
@@ -123,14 +124,89 @@ void SparseMatrix::boundingBox(uint8_t &minX, uint8_t &maxX, uint8_t &minY, uint
   maxX = _maxx;
   minY = _miny;
   maxY = _maxy;
+  return true;
 }
+
+
+bool SparseMatrix::boundingBoxX(uint8_t &minX, uint8_t &maxX)
+{
+  if (_count == 0) return false;
+  uint8_t _minx = 255, _maxx = 0;
+  for (uint16_t i = 0; i < _count; i++)
+  {
+    if (_x[i] < _minx) _minx = _x[i];
+    if (_x[i] > _maxx) _maxx = _x[i];
+  }
+  minX = _minx;
+  maxX = _maxx;
+  return true;
+}
+
+
+bool SparseMatrix::boundingBoxY(uint8_t &minY, uint8_t &maxY)
+{
+  if (_count == 0) return false;
+  uint8_t _miny = 255, _maxy = 0;
+  for (uint16_t i = 0; i < _count; i++)
+  {
+    if (_y[i] < _miny) _miny = _y[i];
+    if (_y[i] > _maxy) _maxy = _y[i];
+  }
+  minY = _miny;
+  maxY = _maxy;
+  return true;
+}
+
+
+bool SparseMatrix::first(uint8_t &x, uint8_t &y, float &value)
+{
+  if (_count == 0) return false;
+  _tindex = 0;
+  x = _x[_tindex];
+  y = _y[_tindex];
+  value = _value[_tindex];
+  return true;
+}
+
+bool SparseMatrix::next(uint8_t &x, uint8_t &y, float &value)
+{
+  if (_count == 0) return false;
+  if (_tindex >= _count - 1) return false;
+  _tindex++;
+  x = _x[_tindex];
+  y = _y[_tindex];
+  value = _value[_tindex];
+  return true;
+}
+
+bool SparseMatrix::prev(uint8_t &x, uint8_t &y, float &value)
+{
+  if (_count == 0)  return false;
+  if (_tindex == 0) return false;
+  _tindex--;
+  x = _x[_tindex];
+  y = _y[_tindex];
+  value = _value[_tindex];
+  return true;
+}
+
+bool SparseMatrix::last(uint8_t &x, uint8_t &y, float &value)
+{
+  if (_count == 0) return false;
+  _tindex = _count - 1;
+  x = _x[_tindex];
+  y = _y[_tindex];
+  value = _value[_tindex];
+  return true;
+}
+
 
 
 //////////////////////////////////////////////////////
 //
 //  PRIVATE
 //
-int32_t SparseMatrix::findPos(uint8_t x, uint8_t y)
+int32_t SparseMatrix::findPosition(uint8_t x, uint8_t y)
 {
   //  linear search - not optimized.
   for (uint16_t i = 0; i < _count; i++)
@@ -144,15 +220,18 @@ int32_t SparseMatrix::findPos(uint8_t x, uint8_t y)
 }
 
 
-void SparseMatrix::removeElement(uint16_t pos)
+bool SparseMatrix::removeElement(uint16_t position)
 {
+  if (position >= _count) return false;
+
   _count--;
   //  move last element
   //  efficiency (keep sorted) is no requirement.
-  if (pos == _count) return;
-  _x[pos]     = _x[_count];
-  _y[pos]     = _y[_count];
-  _value[pos] = _value[_count];
+  if (position == _count) return true;
+  _x[position]     = _x[_count];
+  _y[position]     = _y[_count];
+  _value[position] = _value[_count];
+  return true;
 }
 
 
