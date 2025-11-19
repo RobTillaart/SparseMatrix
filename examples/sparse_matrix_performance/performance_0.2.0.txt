@@ -2,7 +2,7 @@ BOARD:  UNO R3
 IDE:    1.8.19
 
 sparse_matrix_performance.ino
-SPARSEMATRIX_LIB_VERSION: 0.1.7
+SPARSEMATRIX_LIB_VERSION: 0.2.0
 
 20
 0
