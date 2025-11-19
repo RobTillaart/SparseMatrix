@@ -219,14 +219,14 @@ int32_t SparseMatrix::findPosition(uint8_t x, uint8_t y)
 }
 
 
-float getValue(uint16_t position)
+float SparseMatrix::getValue(uint16_t position)
 {
   if (position >= _count) return NAN;
   return _value[position];
 }
 
 
-bool setValue(uint16_t position, float value)
+bool SparseMatrix::setValue(uint16_t position, float value)
 {
   if (position >= _count) return false;
   _value[position] = value;
@@ -234,7 +234,7 @@ bool setValue(uint16_t position, float value)
 }
 
 
-uint16_t compact()
+uint16_t SparseMatrix::compact()
 {
   for (int position = _count - 1; position >= 0; position--)
   {

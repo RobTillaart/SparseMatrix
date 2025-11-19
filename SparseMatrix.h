@@ -44,34 +44,34 @@ public:
   bool     boundingBoxY(uint8_t &minY, uint8_t &maxY);
 
   //  TRAVERSE
-  bool first(uint8_t &x, uint8_t &y, float &value);
-  bool next(uint8_t &x, uint8_t &y, float &value);
-  bool prev(uint8_t &x, uint8_t &y, float &value);
-  bool last(uint8_t &x, uint8_t &y, float &value);
+  bool     first(uint8_t &x, uint8_t &y, float &value);
+  bool     next(uint8_t &x, uint8_t &y, float &value);
+  bool     prev(uint8_t &x, uint8_t &y, float &value);
+  bool     last(uint8_t &x, uint8_t &y, float &value);
 
   //  LOW LEVEL API
   //  returns index of x, y if in set
   //  otherwise -1
-  int32_t findPosition(uint8_t x, uint8_t y);
-  float   getValue(uint16_t position);
-  bool    setValue(uint16_t position, float value);
-  int     compact();
+  int32_t  findPosition(uint8_t x, uint8_t y);
+  float    getValue(uint16_t position);
+  bool     setValue(uint16_t position, float value);
+  uint16_t compact();
 
 
 private:
-  uint16_t  _size   = 0;
-  uint16_t  _count  = 0;
-  uint16_t  _tindex = 0;  //  traverseIndex.
+  uint16_t _size   = 0;
+  uint16_t _count  = 0;
+  uint16_t _tindex = 0;  //  traverseIndex.
 
-  uint8_t   *_x     = NULL;
-  uint8_t   *_y     = NULL;
-  float     *_value = NULL;
+  uint8_t  *_x     = NULL;
+  uint8_t  *_y     = NULL;
+  float    *_value = NULL;
 
   //  removes element at position (from findPosition)
   //  pre: count > 0
-  bool    removeElement(uint16_t position);
+  bool     removeElement(uint16_t position);
   //  creates a new element if value != 0 and if there is room
-  bool    newElement(uint8_t x, uint8_t y, float value);
+  bool     newElement(uint8_t x, uint8_t y, float value);
 };
 
 
