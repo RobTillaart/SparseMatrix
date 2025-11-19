@@ -26,11 +26,11 @@ The purpose of this library is efficient storage in memory.
 The maximum matrix that can be represented is 255 x 255 in size 
 with a theoretical maximum of 65535 non-zero elements.
 In practice the library limits this to 1000 non-zero elements.
-Note: 255 elements would still fit in (but fill up) the 2K memory of an UNO R3.
+Note: The 2K memory of an UNO R3 would be filled with about 300 elements.
 
 Note: the library does not do matrix / vector math operations.
 
-Note: the library does not hold the dimensions of the matrix
+Note: the library does not hold the dimensions of the sparse matrix
 and cannot check these.
 
 
@@ -46,7 +46,7 @@ and cannot check these.
 The implementation is based on 3 arrays holding ``` x, y, value```
 where value is float, and x and y are uint8_t.
 That are 6 bytes per element.
-The number of elements that the sparse matrix object can hold are
+The number of non-zero elements that the sparse matrix object can hold are
 given as parameter to the constructor.
 If the space cannot be allocated the size is set to zero.
 
@@ -56,7 +56,7 @@ In the future other data types should be possible.
 ### Performance
 
 The elements are not kept sorted or indexed so optimizations might be
-possible but are not investigated yet.
+possible but are not investigated. 
 There is however a test sketch to monitor the performance of
 the most important functions.
 
@@ -98,11 +98,14 @@ Returns false if the internal store is full, true otherwise.
 If needed a new internal element is created.
 If the sum is zero, the element is removed from the internal store.
 Returns false if the internal store is full, true otherwise.
+
+### Bounding Box
+
 - **bool boundingBox(uint8_t &minX, uint8_t &maxX, uint8_t &minY, uint8_t &maxY)**
 Sets the bounding box in which all values != 0 are located.
 This can be useful for printing or processing the non zero elements.
 Returns false if there arer no non-zero elements.
-- **bool boundingX(uint8_t &minX, uint8_t &maxX)** idem X only.
+- **bool boundingX(uint8_t &minX, uint8_t &maxX)** idem, X only.
 - **bool boundingY(uint8_t &minY, uint8_t &maxY)** idem, Y only.
 
 
@@ -110,17 +113,20 @@ Returns false if there arer no non-zero elements.
 
 (experimental 0.2.0, limited tested).
 
-To walk through the non-zero elements array in storage order!
+To walk through the non-zero elements array in internal storage order!
 Functions returns false if there is no element.
+Note the storage order changes if elements are set to zero as this 
+removes the element from internal (non zero) storage.
   
 - **bool first(uint8_t &x, uint8_t &y, float &value)**
 - **bool next(uint8_t &x, uint8_t &y, float &value)**
 - **bool prev(uint8_t &x, uint8_t &y, float &value)**
 - **bool last(uint8_t &x, uint8_t &y, float &value)**
 
-See also sparse_matrix_traverse.ino example
+See also sparse_matrix_traverse.ino example how to use the functions.
 
-Tip: Use together with **count()** can be useful
+These functions can be used to copy the sparse matrix to a persistent 
+storage (with minimal storage requirements).
 
 
 ## Future
