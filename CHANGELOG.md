@@ -8,14 +8,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.1.7] - 2025-11-19
 - fix #8, readme.md badges and more
-- add **bool boundingBoxX(uint8_t &minX, uint8_t &maxX)**
-- add **bool boundingBoxY(uint8_t &minY, uint8_t &maxY)**
+- add bounding box functions
+  - **bool boundingBoxX(uint8_t &minX, uint8_t &maxX)**
+  - **bool boundingBoxY(uint8_t &minY, uint8_t &maxY)**
 - add traversing
   - **bool first(uint8_t &x, uint8_t &y, float &value)**
   - **bool next(uint8_t &x, uint8_t &y, float &value)**
   - **bool prev(uint8_t &x, uint8_t &y, float &value)**
   - **bool last(uint8_t &x, uint8_t &y, float &value)**
   - add example **sparse_matrix_traverse.ino**
+- add low level API
+  - **int32_t findPosition(uint8_t x, uint8_t y)**
+  - **float getValue(uint16_t position)**
+  - **bool setValue(uint16_t position, float value);
+  - **int compact()**
 - minor edits
 
 ## [0.1.6] - 2025-09-15

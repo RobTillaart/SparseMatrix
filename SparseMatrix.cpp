@@ -10,17 +10,17 @@
 #include "SparseMatrix.h"
 
 
-SparseMatrix::SparseMatrix(uint16_t sz)
+SparseMatrix::SparseMatrix(uint16_t size)
 {
   _count = 0;
-  _size  = sz;
+  _size  = size;
   if ( _size > SPARSEMATRIX_MAX_SIZE)
   {
     _size = SPARSEMATRIX_MAX_SIZE;
   }
-  _x     = (uint8_t *) malloc(sz);
-  _y     = (uint8_t *) malloc(sz);
-  _value = (float *)   malloc(sz * sizeof(float));
+  _x     = (uint8_t *) malloc(size);
+  _y     = (uint8_t *) malloc(size);
+  _value = (float *)   malloc(size * sizeof(float));
   //  catch malloc error
   if (_x && _y && _value) return;
   //  if malloc error set size to zero.
@@ -201,10 +201,9 @@ bool SparseMatrix::last(uint8_t &x, uint8_t &y, float &value)
 }
 
 
-
 //////////////////////////////////////////////////////
 //
-//  PRIVATE
+//  LOW LEVEL API
 //
 int32_t SparseMatrix::findPosition(uint8_t x, uint8_t y)
 {
@@ -219,6 +218,36 @@ int32_t SparseMatrix::findPosition(uint8_t x, uint8_t y)
   return -1;
 }
 
+
+float getValue(uint16_t position)
+{
+  if (position >= _count) return NAN;
+  return _value[position];
+}
+
+
+bool setValue(uint16_t position, float value)
+{
+  if (position >= _count) return false;
+  _value[position] = value;
+  return true;
+}
+
+
+uint16_t compact()
+{
+  for (int position = _count - 1; position >= 0; position--)
+  {
+    if (_value[position] == 0.0) removeElement(position);
+  }
+  return _count;
+}
+
+
+//////////////////////////////////////////////////////
+//
+//  PRIVATE
+//
 
 bool SparseMatrix::removeElement(uint16_t position)
 {

@@ -21,7 +21,7 @@
 class SparseMatrix
 {
 public:
-  SparseMatrix(uint16_t sz);
+  SparseMatrix(uint16_t size);
   ~SparseMatrix();
 
   uint16_t size();
@@ -32,23 +32,30 @@ public:
   //  returns false if no slots free
   //  could return # free slots?
   bool     set(uint8_t x, uint8_t y, float value);
-  //  adds value to element x, y (allows 2D histogramming)
+  //  adds a value to element x, y (e.g. for 2D histogram)
   bool     add(uint8_t x, uint8_t y, float value);
   float    get(uint8_t x, uint8_t y);
 
-
+  //  BOUNDING BOX
   //  four sides between all values != 0 are located.
   //  returns false if zero elements, count == 0.
   bool     boundingBox(uint8_t &minX, uint8_t &maxX, uint8_t &minY, uint8_t &maxY);
   bool     boundingBoxX(uint8_t &minX, uint8_t &maxX);
   bool     boundingBoxY(uint8_t &minY, uint8_t &maxY);
 
-
-  //  Traverse
+  //  TRAVERSE
   bool first(uint8_t &x, uint8_t &y, float &value);
   bool next(uint8_t &x, uint8_t &y, float &value);
   bool prev(uint8_t &x, uint8_t &y, float &value);
   bool last(uint8_t &x, uint8_t &y, float &value);
+
+  //  LOW LEVEL API
+  //  returns index of x, y if in set
+  //  otherwise -1
+  int32_t findPosition(uint8_t x, uint8_t y);
+  float   getValue(uint16_t position);
+  bool    setValue(uint16_t position, float value);
+  int     compact();
 
 
 private:
@@ -59,10 +66,6 @@ private:
   uint8_t   *_x     = NULL;
   uint8_t   *_y     = NULL;
   float     *_value = NULL;
-
-  //  returns index of x, y if in set
-  //  otherwise -1
-  int32_t findPosition(uint8_t x, uint8_t y);
 
   //  removes element at position (from findPosition)
   //  pre: count > 0

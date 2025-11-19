@@ -84,7 +84,8 @@ If the space requested cannot be allocated size will be set to 0.
 If this is zero, a problem occurred with allocation happened.
 - **uint16_t count()** current number of elements in the matrix.
 Should be between 0 and size.
-- **float sum()** sum of all elements ( > 0 ) in the matrix.
+- **float sum()** sum of all elements ( not zero ) in the matrix.
+The sum itself can be zero!
 - **void clear()** resets the matrix to all zero's again.
 
 
@@ -104,7 +105,7 @@ Returns false if the internal store is full, true otherwise.
 - **bool boundingBox(uint8_t &minX, uint8_t &maxX, uint8_t &minY, uint8_t &maxY)**
 Sets the bounding box in which all values != 0 are located.
 This can be useful for printing or processing the non zero elements.
-Returns false if there arer no non-zero elements.
+Returns false if there are no non-zero elements.
 - **bool boundingX(uint8_t &minX, uint8_t &maxX)** idem, X only.
 - **bool boundingY(uint8_t &minY, uint8_t &maxY)** idem, Y only.
 
@@ -117,7 +118,7 @@ To walk through the non-zero elements array in internal storage order!
 Functions returns false if there is no element.
 Note the storage order changes if elements are set to zero as this 
 removes the element from internal (non zero) storage.
-  
+
 - **bool first(uint8_t &x, uint8_t &y, float &value)**
 - **bool next(uint8_t &x, uint8_t &y, float &value)**
 - **bool prev(uint8_t &x, uint8_t &y, float &value)**
@@ -127,6 +128,45 @@ See also sparse_matrix_traverse.ino example how to use the functions.
 
 These functions can be used to copy the sparse matrix to a persistent 
 storage (with minimal storage requirements).
+
+
+### Low level API
+
+(experimental 0.2.0, limited tested).
+
+For fast access to the internal array one can use the following functions.
+These functions can be used to implement math operations on the non-zero values
+with better performance than the get(x,y) and set(x,y) functions.
+
+Note that these functions assume that the internal storage is not altered 
+by an add() or set() command.
+
+Note one cannot create new elements with these functions. use **set(x,y,value)**.
+
+- **int32_t findPosition(uint8_t x, uint8_t y)** find it an (x,y) position) is 
+in the internal (non zero) storage.
+Returns -1 if **NOT** in the internal storage.
+- **float getValue(uint16_t position)** Get the value from the given position. 
+User is responsible that position is valid, use findPosition(x,y) if needed.
+Returns NAN if position is out of range.
+- **bool setValue(uint16_t position, float value)** Writes a value to position.
+User is responsible that position is valid, use findPosition(x,y) if needed.
+Warning, if the new value is zero, the element will **NOT** be removed from the internal storage.
+Returns false if position is out of range.
+- **uint16_t compact()** compact the internal storage by removing elements that are zero. Note this can make previous positions invalid!.
+Returns the "updated count" of the internal storage.
+
+
+Typical use case, multiply all non-zero elements with a factor
+
+```
+for (int position = 0; position < sm.count(); position++)
+{
+  value = sm.getValue(position);
+  value = value * 1.21;
+  sm.setValue(position, value);
+}
+```
 
 
 ## Future
@@ -143,9 +183,15 @@ storage (with minimal storage requirements).
   - 1, 2, 3 (RGB), 4 byte integer or 8 byte doubles
   - struct, complex number, etc.
   - effect on math ?
+- add LOW level API example
+
 
 #### Could
 
+- performance (low level API - reduces search time)
+  - make findPosition(x,y) public
+  - getValue(position);
+  - setValue(position, value);
 - add constructor with X and Y sizes to allow boundary checking?
   - **SparseMatrix(uint16_t size, uint8_t Xsize, uint8_t Ysize)**
   - would be a breaking change.
